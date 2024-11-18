@@ -236,3 +236,10 @@
         <p>Salads</p>
     </a>
 </li>
+
+<li class="nav-item">
+    <a href="{{ route('meals.index') }}" class="nav-link {{ Request::is('meals*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Meals</p>
+    </a>
+</li>

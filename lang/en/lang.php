@@ -149,5 +149,7 @@ return [
     'salad'    => 'Salad',
     'salads'   => 'Salads',
     'contact'  => 'Contact',
+    'meals'     => 'Meals',
+    'meal'      => 'Meal',
 
 ];

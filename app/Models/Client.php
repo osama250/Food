@@ -16,7 +16,8 @@ class Client extends Authenticatable implements JWTSubject
 
     protected $table        = 'clients';
     protected $fillable     = [ 'name' , 'phone' , 'email', 'password' , 'image' ,
-                                        'address' , 'age' , 'gender' ];
+                                        'address' , 'age'  , 'weight', 'gender' ,
+                                'diabetes' , 'hypertension' , 'heart_disease' , 'asthma'  ];
     protected $hidden       = ['password'];
 
     public static $rules = [
