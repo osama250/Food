@@ -1,0 +1,39 @@
+<?php
+
+use App\Http\Controllers\API\ExcursionController;
+use App\Http\Controllers\API\AgeController;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\SettingController;
+use App\Http\Controllers\Api\ContactUsController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| API Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register API routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| is assigned the "api" middleware group. Enjoy building your API!
+|
+*/
+
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+
+Route::post('login' , [ AuthController::class , 'login' ] );
+Route::post('signup' , [ AuthController::class , 'signup' ] );
+
+
+Route::middleware(['auth:client','StatusMiddleware'])->group(function(){
+    Route::get('profile', [AuthController::class, 'profile']);
+    Route::post('update-profile', [AuthController::class, 'UpdateProfile']);
+    Route::get('logout', [AuthController::class, 'Logout']);
+    Route::post('change-password', [AuthController::class, 'ChangePassword']);
+});
+
+Route::post('contact-us' , [ ContactUsController::class , 'contactUs'] );
+Route::get('settings' , [ SettingController::class , 'setting'] );
