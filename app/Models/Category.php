@@ -14,7 +14,6 @@ class Category extends Model
     public $fillable                = ['image' , 'title' , 'description'];
     public $translatedAttributes    = ['title' , 'description'];
 
-
     protected $casts = [
         'id'    => 'integer',
         'image' => 'string'

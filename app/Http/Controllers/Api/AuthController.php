@@ -61,18 +61,21 @@ class AuthController extends Controller
 
     public function signup(Request $request)
     {
-        $validator = Validator::make( $request->all() , Client::$rules  );
-        if ( $validator->fails() ) {
-            return response()->json( [
-                'status'    => 'failed',
-                'message'   => $validator->errors()->first()
-                ] , 422 );
+        $validator = Validator::make($request->all(), Client::$rules);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status'   => 'failed',
+                'message'  => $validator->errors()->first()
+            ], 422);
         }
-        $user = Client::create( $validator->validated() );
-        return response()->json( [
-            'status'  => 'true' ,
-            'user'    => $user,
-        ] , 200 );
+
+        $user = Client::create($validator->validated());
+
+        return response()->json([
+            'status' => 'true',
+            'user'   => $user,
+        ], 200);
     }
 
     public function profile()
