@@ -20,6 +20,15 @@ class Client extends Authenticatable implements JWTSubject
                                 'diabetes' , 'hypertension' , 'heart_disease' , 'asthma'  ];
     protected $hidden       = ['password'];
 
+    protected $casts = [
+        'diabetes'          => 'boolean',
+        'hypertension'      => 'boolean',
+        'heart_disease'     => 'boolean',
+        'asthma'            => 'boolean',
+        'age'               => 'integer',
+        'weight'            => 'integer'
+    ];
+
     public static $rules = [
         'name'          => 'required' ,
         'password'      => 'required|min:8',
@@ -27,8 +36,13 @@ class Client extends Authenticatable implements JWTSubject
         'email'         => 'required|unique:clients',
         'address'       => 'required',
         'age'           => 'required',
+        'weight'        => 'required',
         'gender'        => 'required',
         'image'         => 'nullable|image|mimes:jpg,jpeg,png',
+        'diabetes'      => 'required|boolean',
+        'hypertension'  => 'required|boolean',
+        'heart_disease' => 'required|boolean',
+        'asthma'        => 'required|boolean',
     ];
 
     public function getImageAttribute()
@@ -41,6 +55,24 @@ class Client extends Authenticatable implements JWTSubject
     {
         $fileName = time() . '.' . $value->getClientOriginalExtension();
         return $this->attributes['image'] = $this->uploadImage($value, $fileName, 'clients/');
+    }
+
+    public static  function boot()
+    {
+        parent::boot();
+        static::deleted(function ($model) {
+            if (!empty($model->image)) {
+                $file = explode('/', $model->image);
+                $fileName = end($file);
+                $model->removeImage($fileName, 'uploads/clients/');
+            }
+
+            if (!empty($model->meta_image)) {
+                $file = explode('/', $model->meta_image);
+                $fileName = end($file);
+                $model->removeImage($fileName, 'uploads/clients/');
+            }
+        });
     }
 
     public function getJWTIdentifier()
