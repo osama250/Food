@@ -12,6 +12,7 @@ use App\Http\Controllers\AdminPanel\BreadController;
 use App\Http\Controllers\AdminPanel\DrinkController;
 use App\Http\Controllers\AdminPanel\SaladController;
 use App\Http\Controllers\AdminPanel\ContactController;
+use App\Http\Controllers\AdminPanel\MealController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -42,6 +43,7 @@ Route::group(
             Route::resource('breads', BreadController::class);
             Route::resource('drinks', DrinkController::class);
             Route::resource('salads', SaladController::class);
+            Route::resource('meals', MealController::class);
             Route::resource('contacts', ContactController::class);
         });
     }

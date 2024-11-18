@@ -50,6 +50,14 @@ class PermissionSeeder extends Seeder
             'Create Contact-Us',
             'Update Contact-Us',
             'Delete Contact-Us',
+            'View Meal',
+            'Create Meal',
+            'Update Meal',
+            'Delete Meal',
+            'View Order',
+            'Create Order',
+            'Update Order',
+            'Delete Order',
 
         ];
         foreach ($permissions as $permission) {
