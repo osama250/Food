@@ -33,7 +33,7 @@
                 <div class="d-flex align-items-center gap-2 gap-lg-3">
 
                     <!--begin::Primary button-->
-                    <a href="{{ route('rice.create') }}"
+                    <a href="{{ route('breads.create') }}"
                         class="btn btn-sm fw-bold btn-primary">{{ __('lang.create') }}</a>
                     <!--end::Primary button-->
                 </div>

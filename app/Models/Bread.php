@@ -45,5 +45,9 @@ class Bread extends Model
         $this->attributes['image']) : NULL;
     }
 
+    public function meals()
+    {
+        return $this->hasMany( Meal::class );
+    }
 
 }

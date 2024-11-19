@@ -99,8 +99,14 @@ class AuthController extends Controller
         $rules['password']                = 'sometimes|string|min:8';
         $rules['address']                 = 'sometimes';
         $rules['age']                     = 'sometimes|integer';
+        $rules['weight']                  = 'sometimes|integer';
         $rules['gender']                  = 'sometimes|in:male,female';
         $rules['image']                   = 'nullable|image|mimes:jpeg,png,jpg';
+        $rules['heart_disease']           = 'sometimes|boolean';
+        $rules['diabetes']                = 'sometimes|boolean';
+        $rules['hypertension']            = 'sometimes|boolean';
+        $rules['asthma']                  = 'sometimes|boolean';
+        $rules['cancer']                  = 'sometimes|boolean';
 
         $validator = Validator::make( $request->all(), $rules);
         if ($validator->fails()) {

@@ -1,44 +1,59 @@
-<div class="card-body p-0">
-    <div class="table-responsive">
-        <table class="table" id="meals-table">
-            <thead>
+<!--begin::Table-->
+<table id="kt_datatable_dom_positioning" class="table table-striped table-row-bordered gy-5 gs-7 border rounded">
+    <!--begin::Thead-->
+    <thead>
+        <tr class="fw-6 fw-semibold text-gray-600">
+            <th class="min-w-250px">{{ __('lang.title') }}</th>
+            <th class="min-w-250px">{{ __('lang.photo') }}</th>
+            <th class="min-w-250px">{{ __('lang.price') }}</th>
+            <th class="min-w-150px">{{ __('lang.actions') }}</th>
+        </tr>
+    </thead>
+    <!--end::Thead-->
+    <!--begin::Tbody-->
+    <tbody>
+        @foreach ( $meals as $meal )
             <tr>
-                <th>Id</th>
-                <th>Image</th>
-                <th>Price</th>
-                <th colspan="3">Action</th>
+                <td>
+                    <span class="badge badge-light-success fs-7 fw-bold">{{ $meal->name }}</span>
+                </td>
+                <td>
+                    <span class="fs-7 fw-bold d-inline"><img src="{{ $meal->image }}"
+                            style="width: 50px; height: 50px; border-radius: 50% display: inline"> </span>
+                </td>
+                <td>
+                    <span class="badge badge-light-success fs-7 fw-bold">{{ $meal->price }}</span>
+                </td>
+                <td>
+                    @if (auth()->user()->can('Update Meal'))
+                        <a href="{{ route('meals.edit', $meal->id) }}" class="btn btn-sm btn-light me-2">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+                    @endif
+                    @if (auth()->user()->can('Delete Meal'))
+                        <form method="POST" action="{{ route('meals.destroy', $meal->id) }}"
+                            style="display: inline">
+                            @csrf
+                            @method('delete')
+                            <button type="submit" class="btn btn-sm btn-danger me-2">
+                                <i class="bi bi-file-x-fill"></i>
+                            </button>
+                        </form>
+                    @endif
+                </td>
             </tr>
-            </thead>
-            <tbody>
-            @foreach($meals as $meal)
-                <tr>
-                    <td>{{ $meal->id }}</td>
-                    <td>{{ $meal->image }}</td>
-                    <td>{{ $meal->price }}</td>
-                    <td  style="width: 120px">
-                        {!! Form::open(['route' => ['meals.destroy', $meal->id], 'method' => 'delete']) !!}
-                        <div class='btn-group'>
-                            <a href="{{ route('meals.show', [$meal->id]) }}"
-                               class='btn btn-default btn-xs'>
-                                <i class="far fa-eye"></i>
-                            </a>
-                            <a href="{{ route('meals.edit', [$meal->id]) }}"
-                               class='btn btn-default btn-xs'>
-                                <i class="far fa-edit"></i>
-                            </a>
-                            {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
-                        </div>
-                        {!! Form::close() !!}
-                    </td>
-                </tr>
-            @endforeach
-            </tbody>
-        </table>
-    </div>
+        @endforeach
+    </tbody>
+    <!--end::Tbody-->
+</table>
+<!--end::Table-->
 
-    <div class="card-footer clearfix">
-        <div class="float-right">
-            @include('adminlte-templates::common.paginate', ['records' => $meals])
-        </div>
-    </div>
-</div>
+<script>
+    $(document).ready(function() {
+        $('#kt_datatable_dom_positioning').dataTable({
+            "searching": true,
+            "ordering": true,
+            responsive: true,
+        });
+    });
+</script>

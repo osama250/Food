@@ -17,7 +17,7 @@ class Client extends Authenticatable implements JWTSubject
     protected $table        = 'clients';
     protected $fillable     = [ 'name' , 'phone' , 'email', 'password' , 'image' ,
                                         'address' , 'age'  , 'weight', 'gender' ,
-                                'diabetes' , 'hypertension' , 'heart_disease' , 'asthma'  ];
+                                'diabetes' , 'hypertension' , 'heart_disease' , 'asthma' ,'cancer' ];
     protected $hidden       = ['password'];
 
     protected $casts = [
@@ -25,6 +25,7 @@ class Client extends Authenticatable implements JWTSubject
         'hypertension'      => 'boolean',
         'heart_disease'     => 'boolean',
         'asthma'            => 'boolean',
+        'cancer'            => 'boolean',
         'age'               => 'integer',
         'weight'            => 'integer'
     ];
@@ -43,6 +44,7 @@ class Client extends Authenticatable implements JWTSubject
         'hypertension'  => 'required|boolean',
         'heart_disease' => 'required|boolean',
         'asthma'        => 'required|boolean',
+        'cancer'        => 'required|boolean',
     ];
 
     public function getImageAttribute()
