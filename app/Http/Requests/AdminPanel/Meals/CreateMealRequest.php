@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\AmdinPanel\Meals;
+namespace App\Http\Requests\AdminPanel\Meals;
 
 use App\Models\Meal;
 use Illuminate\Foundation\Http\FormRequest;
@@ -15,6 +15,6 @@ class CreateMealRequest extends FormRequest
 
     public function rules()
     {
-        return Meal::$rules;
+        return Meal::rules();
     }
 }

@@ -25,6 +25,7 @@ return new class extends Migration
             $table->boolean('hypertension')->default(false);
             $table->boolean('heart_disease')->default(false);
             $table->boolean('asthma')->default(false);
+            $table->boolean('cancer')->default(false);
 
             $table->timestamps();
         });

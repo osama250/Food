@@ -62,4 +62,9 @@ class Category extends Model
             }
         });
     }
+
+    public function meals()
+    {
+        return $this->hasMany( Meal::class );
+    }
 }

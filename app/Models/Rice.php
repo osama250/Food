@@ -62,4 +62,9 @@ class Rice extends Model
             }
         });
     }
+
+    public function meals()
+    {
+        return $this->hasMany( Meal::class );
+    }
 }
