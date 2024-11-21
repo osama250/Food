@@ -65,6 +65,6 @@ class Category extends Model
 
     public function meals()
     {
-        return $this->hasMany( Meal::class );
+        return $this->hasMany( Meal::class  , 'category_id');
     }
 }
