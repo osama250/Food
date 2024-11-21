@@ -11,6 +11,9 @@ class CategoryController extends Controller
     public function categoryDetails( $id )
     {
         $category = Category::with('meals')->findOrFail($id);
-        return $category;
+        return response()->json([
+            'status'   => true ,
+            'category' => $category ,
+        ] , 200 );
     }
 }
