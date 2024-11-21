@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\API\ExcursionController;
 use App\Http\Controllers\API\AgeController;
 use App\Http\Controllers\Api\AuthController;
@@ -37,3 +38,5 @@ Route::middleware(['auth:client','StatusMiddleware'])->group(function(){
 
 Route::post('contact-us' , [ ContactUsController::class , 'contactUs'] );
 Route::get('settings' , [ SettingController::class , 'setting'] );
+
+Route::get('categotry-details/{id}' , [ CategoryController::class , 'categoryDetails'] );
