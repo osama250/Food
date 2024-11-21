@@ -9,7 +9,7 @@ use App\Repositories\CategoryRepository;
 use Illuminate\Http\Request;
 use Flash;
 
-class CategoryController extends AppBaseController
+ class CategoryController extends AppBaseController
 {
 
     private $categoryRepository;
