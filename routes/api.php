@@ -6,6 +6,7 @@ use App\Http\Controllers\API\AgeController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\SettingController;
 use App\Http\Controllers\Api\ContactUsController;
+use App\Http\Controllers\Api\OrderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -40,3 +41,8 @@ Route::post('contact-us' , [ ContactUsController::class , 'contactUs'] );
 Route::get('settings' , [ SettingController::class , 'setting'] );
 
 Route::get('categotry-details/{id}' , [ CategoryController::class , 'categoryDetails'] );
+
+
+// Orders
+Route::post('create-order', [ OrderController::class , 'placeOrder'] ) ;
+

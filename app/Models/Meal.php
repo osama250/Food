@@ -108,4 +108,10 @@ class Meal extends Model
         return $this->belongsTo( Bread::class );
     }
 
+    public function clients()
+    {
+        return $this->belongsToMany(Client::class, 'client_meals')->withPivot('quantity')->withTimestamps();
+    }
+
+
 }
