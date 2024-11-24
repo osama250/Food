@@ -80,7 +80,7 @@ class AuthController extends Controller
 
     public function profile()
     {
-        $user = auth('client')->user();
+        $user = auth('client')->user()->load('meals');
         return response()->json( [
             'status'    => 'true',
             'user'      =>  $user
