@@ -6,6 +6,7 @@ use App\Http\Controllers\API\AgeController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\SettingController;
 use App\Http\Controllers\Api\ContactUsController;
+use App\Http\Controllers\Api\MealController;
 use App\Http\Controllers\Api\OrderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -35,6 +36,9 @@ Route::middleware(['auth:client','StatusMiddleware'])->group(function(){
     Route::post('update-profile', [AuthController::class, 'UpdateProfile']);
     Route::get('logout', [AuthController::class, 'Logout']);
     Route::post('change-password', [AuthController::class, 'ChangePassword']);
+
+    // Orders
+    Route::post('create-order', [ OrderController::class , 'placeOrder'] ) ;
 });
 
 Route::post('contact-us' , [ ContactUsController::class , 'contactUs'] );
@@ -42,7 +46,6 @@ Route::get('settings' , [ SettingController::class , 'setting'] );
 
 Route::get('categotry-details/{id}' , [ CategoryController::class , 'categoryDetails'] );
 
+Route::get('meal-details/{id}' , [ MealController::class , 'mealDetails'] );
 
-// Orders
-Route::post('create-order', [ OrderController::class , 'placeOrder'] ) ;
 
