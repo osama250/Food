@@ -10,7 +10,14 @@ class CategoryController extends Controller
 {
     public function categoryDetails( $id )
     {
-        $category = Category::with('meals')->findOrFail($id);
+        // $category = Category::with('meals.rice')->findOrFail($id);
+        $category = Category::with([
+            'meals.rice',
+            'meals.drink',
+            'meals.bread',
+            'meals.salad'
+        ])->findOrFail($id);
+
         return response()->json([
             'status'   => true ,
             'category' => $category ,
