@@ -12,7 +12,7 @@ class CategorySeeder extends Seeder
     {
 
         $category = Category::create([
-                'image' => 'default.png',
+                'image' => 'f.jpeg',
             ]);
 
         CategoryTranslation::create( [
@@ -32,7 +32,7 @@ class CategorySeeder extends Seeder
 
 
             $category = Category::create([
-                'image' => 'default.png',
+                'image' => 'c.jpg',
             ]);
 
         CategoryTranslation::create( [
@@ -51,7 +51,7 @@ class CategorySeeder extends Seeder
 
 
             $category = Category::create([
-                'image' => 'default.png',
+                'image' => 'b.jpeg',
             ]);
 
         CategoryTranslation::create( [
