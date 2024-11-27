@@ -96,4 +96,31 @@ class Client extends Authenticatable implements JWTSubject
     {
         return $this->belongsToMany(Meal::class, 'client_meals')->withPivot('quantity')->withTimestamps();
     }
+
+
+    public function setDiabetesAttribute($value)
+{
+    $this->attributes['diabetes'] = filter_var($value, FILTER_VALIDATE_BOOLEAN);
+}
+
+public function setHypertensionAttribute($value)
+{
+    $this->attributes['hypertension'] = filter_var($value, FILTER_VALIDATE_BOOLEAN);
+}
+
+public function setHeartDiseaseAttribute($value)
+{
+    $this->attributes['heart_disease'] = filter_var($value, FILTER_VALIDATE_BOOLEAN);
+}
+
+public function setAsthmaAttribute($value)
+{
+    $this->attributes['asthma'] = filter_var($value, FILTER_VALIDATE_BOOLEAN);
+}
+
+public function setCancerAttribute($value)
+{
+    $this->attributes['cancer'] = filter_var($value, FILTER_VALIDATE_BOOLEAN);
+}
+
 }
