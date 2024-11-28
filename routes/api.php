@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminPanel\SuggestionController as AdminPanelSuggestionController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\API\ExcursionController;
 use App\Http\Controllers\API\AgeController;
@@ -8,6 +9,7 @@ use App\Http\Controllers\Api\SettingController;
 use App\Http\Controllers\Api\ContactUsController;
 use App\Http\Controllers\Api\MealController;
 use App\Http\Controllers\Api\OrderController;
+use App\Http\Controllers\Api\SuggestionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -47,5 +49,7 @@ Route::get('settings' , [ SettingController::class , 'setting'] );
 Route::get('categotry-details/{id}' , [ CategoryController::class , 'categoryDetails'] );
 
 Route::get('meal-details/{id}' , [ MealController::class , 'mealDetails'] );
+
+Route::post('suggestions' , [ SuggestionController::class , 'suggestions'] );
 
 
