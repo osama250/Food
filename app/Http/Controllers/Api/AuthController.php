@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\ForgetPassword;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
+use App\Http\Resources\ClientMealResource;
+use App\Models\ClientMeal;
 
 class AuthController extends Controller
 {
@@ -78,14 +80,31 @@ class AuthController extends Controller
         ], 200);
     }
 
+    // public function profile()
+    // {
+    //     $user = auth('client')->user()->load('meals');
+    //     return response()->json( [
+    //         'status'    => 'true',
+    //         'user'      =>  $user
+    //     ] , 200 );
+    // }
+
     public function profile()
     {
-        $user = auth('client')->user()->load('meals');
-        return response()->json( [
-            'status'    => 'true',
-            'user'      =>  $user
-        ] , 200 );
+        $user = auth('client')->user();
+
+        // تحميل الوجبات مع التخصيصات باستخدام نموذج ClientMeal مباشرة
+        $meals = ClientMeal::where('client_id', $user->id)->with('meal', 'customizations')->get();
+
+        return response()->json([
+            'status' => 'true',
+            'user' => $user,
+            'meals' => ClientMealResource::collection($meals),
+        ], 200);
     }
+
+
+
 
     public function updateProfile( Request $request )
     {
