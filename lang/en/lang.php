@@ -151,5 +151,8 @@ return [
     'contact'  => 'Contact',
     'meals'     => 'Meals',
     'meal'      => 'Meal',
-
+    'suggestion-added'      => 'Suggestion Added Successfully',
+    'email-required'        => 'Email Required',
+    'email-invalid'         => 'Email Invalid',
+    'suggestion-required'   => 'Suggestion Required',
 ];
