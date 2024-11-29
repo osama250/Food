@@ -1,40 +1,54 @@
-<div class="card-body p-0">
-    <div class="table-responsive">
-        <table class="table" id="dietplans-table">
-            <thead>
+<!--begin::Table-->
+<table id="kt_datatable_dom_positioning" class="table table-striped table-row-bordered gy-5 gs-7 border rounded">
+    <!--begin::Thead-->
+    <thead>
+        <tr class="fw-6 fw-semibold text-gray-600">
+            <th class="min-w-250px">{{ __('lang.name') }}</th>
+            <th class="min-w-250px">{{ __('lang.disease') }}</th>
+            <th class="min-w-150px">{{ __('lang.actions') }}</th>
+        </tr>
+    </thead>
+    <!--end::Thead-->
+    <!--begin::Tbody-->
+    <tbody>
+        @foreach ( $dietplans as $dietplan )
             <tr>
-                <th>Id</th>
-                <th colspan="3">Action</th>
+                <td>
+                    <span class="badge badge-light-success fs-7 fw-bold">{{ $dietplan->name }}</span>
+                </td>
+                <td>
+                    <span class="badge badge-light-success fs-7 fw-bold">{{ $dietplan->disease }}</span>
+                </td>
+                <td>
+                    @if (auth()->user()->can('Update Dietplan'))
+                        <a href="{{ route('dietplans.edit', $dietplan->id) }}" class="btn btn-sm btn-light me-2">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+                    @endif
+                    @if (auth()->user()->can('Delete Dietplan'))
+                        <form method="POST" action="{{ route('dietplans.destroy', $dietplan->id) }}"
+                            style="display: inline">
+                            @csrf
+                            @method('delete')
+                            <button type="submit" class="btn btn-sm btn-danger me-2">
+                                <i class="bi bi-file-x-fill"></i>
+                            </button>
+                        </form>
+                    @endif
+                </td>
             </tr>
-            </thead>
-            <tbody>
-            @foreach($dietplans as $dietplan)
-                <tr>
-                    <td>{{ $dietplan->id }}</td>
-                    <td  style="width: 120px">
-                        {!! Form::open(['route' => ['dietplans.destroy', $dietplan->id], 'method' => 'delete']) !!}
-                        <div class='btn-group'>
-                            <a href="{{ route('dietplans.show', [$dietplan->id]) }}"
-                               class='btn btn-default btn-xs'>
-                                <i class="far fa-eye"></i>
-                            </a>
-                            <a href="{{ route('dietplans.edit', [$dietplan->id]) }}"
-                               class='btn btn-default btn-xs'>
-                                <i class="far fa-edit"></i>
-                            </a>
-                            {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
-                        </div>
-                        {!! Form::close() !!}
-                    </td>
-                </tr>
-            @endforeach
-            </tbody>
-        </table>
-    </div>
+        @endforeach
+    </tbody>
+    <!--end::Tbody-->
+</table>
+<!--end::Table-->
 
-    <div class="card-footer clearfix">
-        <div class="float-right">
-            @include('adminlte-templates::common.paginate', ['records' => $dietplans])
-        </div>
-    </div>
-</div>
+<script>
+    $(document).ready(function() {
+        $('#kt_datatable_dom_positioning').dataTable({
+            "searching": true,
+            "ordering": true,
+            responsive: true,
+        });
+    });
+</script>

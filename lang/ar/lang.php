@@ -112,5 +112,9 @@ return [
     'cancer'                => 'السرطان',
     'dietplans'             => 'خطط التغذية',
     'dietplan'              => 'خطة التغذية',
+    'Choose_Type'           => 'اختر النوع',
+    'type'                  => 'النوع',
+    'disease'               => 'المرض',
+
 
 ];
