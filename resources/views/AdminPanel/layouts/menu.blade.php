@@ -223,6 +223,32 @@
                                                 <!--end:Menu link-->
                                             </div>
                                         @endif
+                                        @if ( auth()->user()->can('View Order') )
+                                        <!--begin:Menu item-->
+                                            <div class="menu-item">
+                                                <!--begin:Menu link-->
+                                                <a class="menu-link active" href="{{ route('orders.index') }}">
+                                                    <span class="menu-bullet">
+                                                        <span class="bullet bullet-dot"></span>
+                                                    </span>
+                                                    <span class="menu-title">{{ __('lang.orders') }}</span>
+                                                </a>
+                                                <!--end:Menu link-->
+                                            </div>
+                                        @endif
+                                        @if ( auth()->user()->can('View Suggestion') )
+                                        <!--begin:Menu item-->
+                                            <div class="menu-item">
+                                                <!--begin:Menu link-->
+                                                <a class="menu-link active" href="{{ route('suggestions.index') }}">
+                                                    <span class="menu-bullet">
+                                                        <span class="bullet bullet-dot"></span>
+                                                    </span>
+                                                    <span class="menu-title">{{ __('lang.suggestions') }}</span>
+                                                </a>
+                                                <!--end:Menu link-->
+                                            </div>
+                                        @endif
                                     </div>
                                     <!--end:Menu sub-->
                                 </div>
@@ -261,12 +287,6 @@
                                             @endif
                                             <!--end:Menu item-->
                                             <!--begin:Menu item-->
-
-
-
-
-
-
                                     </div>
                                     <!--end:Menu sub-->
                                 </div>

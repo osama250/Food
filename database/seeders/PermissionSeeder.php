@@ -55,10 +55,9 @@ class PermissionSeeder extends Seeder
             'Update Meal',
             'Delete Meal',
             'View Order',
-            'Create Order',
-            'Update Order',
             'Delete Order',
-
+            'View Suggestion',
+            'Delete Suggestion',
         ];
         foreach ($permissions as $permission) {
             \Spatie\Permission\Models\Permission::updateOrCreate( [ 'name' => $permission ] );

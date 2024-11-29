@@ -8,9 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class ClientMeal extends Model
 {
     use HasFactory;
-    protected $table = 'client_meals';
-
-    protected $fillable = [  'client_id',  'meal_id',  'quantity' ];
+    protected $table        = 'client_meals';
+    protected $fillable     = [  'client_id',  'meal_id',  'quantity' ];
 
     // public function meal()
     // {
@@ -21,6 +20,11 @@ class ClientMeal extends Model
     {
         return $this->belongsTo(Meal::class)->with('rice', 'bread', 'salad', 'drink');
     }
+    public function client()
+    {
+        return $this->belongsTo(Client::class);
+    }
+
     public function getRiceAttribute()
     {
         return $this->customizations && $this->customizations->rice ? $this->customizations->rice : $this->meal->rice;
