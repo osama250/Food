@@ -9,51 +9,64 @@ use App\Models\Meal;
 
 class OrderController extends Controller
 {
+
+
     // public function placeOrder(Request $request)
     // {
     //     $client = auth('client')->user();
-    //     // return $client;
 
     //     // Validate the meals data
     //     $validated = $request->validate([
-    //         'meals'             => 'required|array',
-    //         'meals.*.id'        => 'exists:meals,id',
-    //         'meals.*.quantity'  => 'integer|min:1',
+    //         'meals'                     => 'required|array',
+    //         'meals.*.id'                => 'exists:meals,id',
+    //         'meals.*.quantity'          => 'integer|min:1',
+    //         'meals.*.customizations.rice_id'   => 'nullable|exists:rices,id',
+    //         'meals.*.customizations.bread_id'  => 'nullable|exists:breads,id',
+    //         'meals.*.customizations.salad_id'  => 'nullable|exists:salads,id',
+    //         'meals.*.customizations.drink_id'  => 'nullable|exists:drinks,id',
     //     ]);
 
-    //     $meals  = Meal::whereIn('id', collect($validated['meals'])->pluck('id'))->get();
+    //     // Retrieve all meals from the database
+    //     $meals = Meal::whereIn('id', collect($validated['meals'])->pluck('id'))->get();
 
-    //     $restrictedMeals        = [];
-    //     $suitableMeals          = [];
-    //     $orderMeals             = [];
+    //     $restrictedMeals = [];
+    //     $suitableMeals = [];
+    //     $orderMeals = [];
 
     //     foreach ($meals as $meal) {
-    //         // Check health condition conflicts
+    //         // Check health condition conflicts for all 5 diseases
     //         if (
-    //             ($client->diabetes && $meal->diabetes) ||
-    //             ($client->hypertension && $meal->hypertension) ||
-    //             ($client->heart_disease && $meal->heart_disease) ||
-    //             ($client->asthma && $meal->asthma) ||
-    //             ($client->cancer && $meal->cancer)
+    //             ($client->diabetes && $meal->diabetes == false) ||
+    //             ($client->hypertension && $meal->hypertension == false) ||
+    //             ($client->heart_disease && $meal->heart_disease == false) ||
+    //             ($client->asthma && $meal->asthma == false) ||
+    //             ($client->cancer && $meal->cancer == false)
     //         ) {
-    //             $restrictedMeals[] = $meal; // Add to restricted meals
+    //             // If the client has any disease and the meal is marked as not suitable for that disease
+    //             $restrictedMeals[] = $meal;  // Add to restricted meals
     //         } else {
-    //             $suitableMeals[] = $meal; // Add to suitable meals
-    //             // Prepare meal data for order
-    //             $mealData               = collect($validated['meals'])->firstWhere('id', $meal->id);
-    //             $orderMeals[$meal->id]  = ['quantity' => $mealData['quantity']];
+    //             // If there is no conflict, add to suitable meals
+    //             $suitableMeals[] = $meal;
+
+    //             // Prepare the meal data for the order
+    //             $mealData = collect($validated['meals'])->firstWhere('id', $meal->id);
+    //             $orderMeals[] = [
+    //                 'meal_id'  => $meal->id,
+    //                 'quantity' => $mealData['quantity'],
+    //             ];
     //         }
     //     }
 
     //     // If restricted meals exist, suggest alternatives and return error
     //     if (!empty($restrictedMeals)) {
+    //         // Get alternative meals that are suitable for the client's health conditions
     //         $suggestions = Meal::whereNotIn('id', collect($restrictedMeals)->pluck('id'))
     //             ->where(function ($query) use ($client) {
     //                 if ($client->diabetes) $query->where('diabetes', false);
     //                 if ($client->hypertension) $query->where('hypertension', false);
     //                 if ($client->heart_disease) $query->where('heart_disease', false);
     //                 if ($client->asthma) $query->where('asthma', false);
-    //                 if ($client->cancer) $query->where('cancer', false);
+    //                 if ($client->cancer) $query->where('cancer', false);  // Exclude meals marked as not suitable for cancer patients
     //             })->get();
 
     //         return response()->json([
@@ -64,14 +77,164 @@ class OrderController extends Controller
     //         ], 400);
     //     }
 
+    //     // Proceed with attaching the meals to the client
     //     if (!empty($orderMeals)) {
-    //         $client->meals()->attach($orderMeals);
+    //         // Create client meals and get their IDs
+    //         foreach ($orderMeals as $orderMeal) {
+    //             $clientMeal = \App\Models\ClientMeal::create([
+    //                 'client_id' => $client->id,
+    //                 'meal_id'   => $orderMeal['meal_id'],
+    //                 'quantity'  => $orderMeal['quantity'],
+    //             ]);
+
+    //             // Add customizations if present
+    //             $mealData = collect($validated['meals'])->firstWhere('id', $orderMeal['meal_id']);
+    //             if (isset($mealData['customizations'])) {
+    //                 \App\Models\ClientMealCustomization::create([
+    //                     'client_meal_id' => $clientMeal->id,
+    //                     'rice_id'        => $mealData['customizations']['rice_id'] ?? null,
+    //                     'bread_id'       => $mealData['customizations']['bread_id'] ?? null,
+    //                     'salad_id'       => $mealData['customizations']['salad_id'] ?? null,
+    //                     'drink_id'       => $mealData['customizations']['drink_id'] ?? null,
+    //                 ]);
+    //             }
+    //         }
     //     }
 
     //     return response()->json([
-    //         'status'        => 'success',
-    //         'message'       => 'Order placed successfully!',
-    //         'meals'         => $suitableMeals,
+    //         'status'  => 'success',
+    //         'message' => 'Order placed successfully!',
+    //         'meals'   => $suitableMeals,
+    //     ], 200);
+    // }
+
+    // public function placeOrder(Request $request)
+    // {
+    //     $client = auth('client')->user();
+
+    //     // Validate the meals data
+    //     $validated = $request->validate([
+    //         'meals'                     => 'required|array',
+    //         'meals.*.id'                => 'exists:meals,id',
+    //         'meals.*.quantity'          => 'integer|min:1',
+    //         'meals.*.customizations.rice_id'   => 'nullable|exists:rices,id',
+    //         'meals.*.customizations.bread_id'  => 'nullable|exists:breads,id',
+    //         'meals.*.customizations.salad_id'  => 'nullable|exists:salads,id',
+    //         'meals.*.customizations.drink_id'  => 'nullable|exists:drinks,id',
+    //     ]);
+
+    //     // Retrieve all meals from the database
+    //     $meals = Meal::whereIn('id', collect($validated['meals'])->pluck('id')->toArray())->get();
+
+    //     $restrictedMeals = [];
+    //     $suitableMeals = [];
+    //     $orderMeals = [];
+    //     $restrictionMessages = []; // تعريف المصفوفة قبل استخدامها
+    //     $suggestedMeals = []; // تعريف المصفوفة قبل استخدامها
+
+    //     // Define the diseases list
+    //     $diseases = ['diabetes', 'hypertension', 'heart_disease', 'asthma', 'cancer'];
+
+    //     foreach ($meals as $meal) {
+    //         $restrictedDiseases = []; // مصفوفة لتخزين الأمراض التي تمنع العميل من تناول الوجبة
+
+    //         // تحقق من الأمراض في جدول العميل مقارنةً بالوجبة
+    //         if ($client->diabetes && $meal->diabetes == false) {
+    //             $restrictedDiseases[] = 'Diabetes';
+    //         }
+    //         if ($client->hypertension && $meal->hypertension == false) {
+    //             $restrictedDiseases[] = 'Hypertension';
+    //         }
+    //         if ($client->heart_disease && $meal->heart_disease == false) {
+    //             $restrictedDiseases[] = 'Heart Disease';
+    //         }
+    //         if ($client->asthma && $meal->asthma == false) {
+    //             $restrictedDiseases[] = 'Asthma';
+    //         }
+    //         if ($client->cancer && $meal->cancer == false) {
+    //             $restrictedDiseases[] = 'Cancer';
+    //         }
+
+    //         // إذا كان هناك تعارض مع أي مرض
+    //         if (!empty($restrictedDiseases)) {
+    //             // إضافة الوجبة إلى الممنوعة
+    //             $restrictedMeals[] = $meal;
+
+    //             // دمج أسماء الأمراض الممنوعة في رسالة واحدة
+    //             $restrictedDiseasesList = implode(', ', $restrictedDiseases);
+    //             $mealName = $meal->getTranslation('name', app()->getLocale());
+    //             $message = "You cannot order the meal '$mealName' because it is not suitable for your health condition. Restricted diseases: $restrictedDiseasesList";
+
+    //             // عرض الرسالة
+    //             $restrictionMessages[] = $message;
+    //         } else {
+    //             // إذا كانت الوجبة مناسبة
+    //             $suitableMeals[] = $meal;
+
+    //             // إعداد بيانات الوجبة للطلب
+    //             $mealData = collect($validated['meals'])->firstWhere('id', $meal->id);
+    //             $orderMeals[] = [
+    //                 'meal_id'  => $meal->id,
+    //                 'quantity' => $mealData['quantity'],
+    //             ];
+    //         }
+    //     }
+
+    //     // إذا كانت هناك وجبات ممنوعة
+    //     if (!empty($restrictedMeals)) {
+    //         // جمع البدائل
+    //         $suggestedMeals = Meal::whereNotIn('id', collect($restrictedMeals)->pluck('id'))
+    //             ->where(function ($query) use ($client) {
+    //                 if ($client->diabetes) $query->where('diabetes', false);
+    //                 if ($client->hypertension) $query->where('hypertension', false);
+    //                 if ($client->heart_disease) $query->where('heart_disease', false);
+    //                 if ($client->asthma) $query->where('asthma', false);
+    //                 if ($client->cancer) $query->where('cancer', false);  // استبعاد الوجبات غير المناسبة للسرطان
+    //             })->get();
+
+    //         // جمع رسائل التقييد مع الترجمة
+    //         foreach ($restrictedMeals as $meal) {
+    //             $conflictMessage = __("The meal :meal is restricted due to your health condition.", ['meal' => $meal->getTranslation('name', app()->getLocale())]);
+    //             $restrictionMessages[] = $conflictMessage;
+    //         }
+
+    //         return response()->json([
+    //             'status'             => 'error',
+    //             'message'            => __('Some meals are not suitable for your health condition.'),
+    //             'restricted_meals'   => $restrictedMeals,
+    //             'suggested_meals'    => $suggestedMeals,
+    //             'restriction_messages' => $restrictionMessages, // عرض الرسائل المحظورة
+    //         ], 400);
+    //     }
+
+    //     // Proceed with attaching the meals to the client
+    //     if (!empty($orderMeals)) {
+    //         // Create client meals and get their IDs
+    //         foreach ($orderMeals as $orderMeal) {
+    //             $clientMeal = \App\Models\ClientMeal::create([
+    //                 'client_id' => $client->id,
+    //                 'meal_id'   => $orderMeal['meal_id'],
+    //                 'quantity'  => $orderMeal['quantity'],
+    //             ]);
+
+    //             // Add customizations if present
+    //             $mealData = collect($validated['meals'])->firstWhere('id', $orderMeal['meal_id']);
+    //             if (isset($mealData['customizations'])) {
+    //                 \App\Models\ClientMealCustomization::create([
+    //                     'client_meal_id' => $clientMeal->id,
+    //                     'rice_id'        => $mealData['customizations']['rice_id'] ?? null,
+    //                     'bread_id'       => $mealData['customizations']['bread_id'] ?? null,
+    //                     'salad_id'       => $mealData['customizations']['salad_id'] ?? null,
+    //                     'drink_id'       => $mealData['customizations']['drink_id'] ?? null,
+    //                 ]);
+    //             }
+    //         }
+    //     }
+
+    //     return response()->json([
+    //         'status'  => 'success',
+    //         'message' => 'Order placed successfully!',
+    //         'meals'   => $suitableMeals,
     //     ], 200);
     // }
 
@@ -90,26 +253,53 @@ class OrderController extends Controller
             'meals.*.customizations.drink_id'  => 'nullable|exists:drinks,id',
         ]);
 
-        $meals = Meal::whereIn('id', collect($validated['meals'])->pluck('id'))->get();
+        // Retrieve all meals from the database
+        $meals = Meal::whereIn('id', collect($validated['meals'])->pluck('id')->toArray())->get();
 
         $restrictedMeals = [];
         $suitableMeals = [];
         $orderMeals = [];
+        $restrictionMessages = []; // تعريف المصفوفة قبل استخدامها
+
+        // Define the diseases list
+        $diseases = ['diabetes', 'hypertension', 'heart_disease', 'asthma', 'cancer'];
 
         foreach ($meals as $meal) {
-            // Check health condition conflicts
-            if (
-                ($client->diabetes && $meal->diabetes) ||
-                ($client->hypertension && $meal->hypertension) ||
-                ($client->heart_disease && $meal->heart_disease) ||
-                ($client->asthma && $meal->asthma) ||
-                ($client->cancer && $meal->cancer)
-            ) {
+            $restrictedDiseases = []; // مصفوفة لتخزين الأمراض التي تمنع العميل من تناول الوجبة
+
+            // تحقق من الأمراض في جدول العميل مقارنةً بالوجبة
+            if ($client->diabetes && $meal->diabetes == false) {
+                $restrictedDiseases[] = 'Diabetes';
+            }
+            if ($client->hypertension && $meal->hypertension == false) {
+                $restrictedDiseases[] = 'Hypertension';
+            }
+            if ($client->heart_disease && $meal->heart_disease == false) {
+                $restrictedDiseases[] = 'Heart Disease';
+            }
+            if ($client->asthma && $meal->asthma == false) {
+                $restrictedDiseases[] = 'Asthma';
+            }
+            if ($client->cancer && $meal->cancer == false) {
+                $restrictedDiseases[] = 'Cancer';
+            }
+
+            // إذا كان هناك تعارض مع أي مرض
+            if (!empty($restrictedDiseases)) {
+                // إضافة الوجبة إلى الممنوعة
                 $restrictedMeals[] = $meal;
+
+                // دمج أسماء الأمراض الممنوعة في رسالة واحدة
+                $restrictedDiseasesList = implode(', ', $restrictedDiseases);
+                $message = "You cannot order the meal because it is not suitable for your health condition. Restricted diseases: $restrictedDiseasesList";
+
+                // عرض الرسالة
+                $restrictionMessages[] = $message;
             } else {
+                // إذا كانت الوجبة مناسبة
                 $suitableMeals[] = $meal;
 
-                // Prepare meal data for order
+                // إعداد بيانات الوجبة للطلب
                 $mealData = collect($validated['meals'])->firstWhere('id', $meal->id);
                 $orderMeals[] = [
                     'meal_id'  => $meal->id,
@@ -118,27 +308,20 @@ class OrderController extends Controller
             }
         }
 
-        // If restricted meals exist, suggest alternatives and return error
+        // إذا كانت هناك وجبات ممنوعة
         if (!empty($restrictedMeals)) {
-            $suggestions = Meal::whereNotIn('id', collect($restrictedMeals)->pluck('id'))
-                ->where(function ($query) use ($client) {
-                    if ($client->diabetes) $query->where('diabetes', false);
-                    if ($client->hypertension) $query->where('hypertension', false);
-                    if ($client->heart_disease) $query->where('heart_disease', false);
-                    if ($client->asthma) $query->where('asthma', false);
-                    if ($client->cancer) $query->where('cancer', false);
-                })->get();
-
             return response()->json([
-                'status'             => 'error',
-                'message'            => 'Some meals are not suitable for your health condition.',
-                'restricted_meals'   => $restrictedMeals,
-                'suggested_meals'    => $suggestions,
+                'status'               => 'error',
+                // 'message'              => 'Some meals are not suitable for your health condition.',
+                'message'              => $restrictionMessages,
+                'restricted_meals'     => $restrictedMeals,
+                // 'Reason_for_rejection' => $restrictionMessages, // عرض الرسائل المحظورة بشكل مبسط
             ], 400);
         }
 
+        // Proceed with attaching the meals to the client
         if (!empty($orderMeals)) {
-            // Manually create client meals and get their IDs
+            // Create client meals and get their IDs
             foreach ($orderMeals as $orderMeal) {
                 $clientMeal = \App\Models\ClientMeal::create([
                     'client_id' => $client->id,
@@ -166,8 +349,5 @@ class OrderController extends Controller
             'meals'   => $suitableMeals,
         ], 200);
     }
-
-
-
 
 }
