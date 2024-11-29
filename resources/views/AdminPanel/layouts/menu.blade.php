@@ -249,6 +249,19 @@
                                                 <!--end:Menu link-->
                                             </div>
                                         @endif
+                                        @if ( auth()->user()->can('View Dietplan') )
+                                        <!--begin:Menu item-->
+                                            <div class="menu-item">
+                                                <!--begin:Menu link-->
+                                                <a class="menu-link active" href="{{ route('dietplans.index') }}">
+                                                    <span class="menu-bullet">
+                                                        <span class="bullet bullet-dot"></span>
+                                                    </span>
+                                                    <span class="menu-title">{{ __('lang.dietplans') }}</span>
+                                                </a>
+                                                <!--end:Menu link-->
+                                            </div>
+                                        @endif
                                     </div>
                                     <!--end:Menu sub-->
                                 </div>

@@ -243,3 +243,10 @@
         <p>Meals</p>
     </a>
 </li>
+
+<li class="nav-item">
+    <a href="{{ route('dietplans.index') }}" class="nav-link {{ Request::is('dietplans*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Dietplans</p>
+    </a>
+</li>

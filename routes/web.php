@@ -15,6 +15,7 @@ use App\Http\Controllers\AdminPanel\ContactController;
 use App\Http\Controllers\AdminPanel\MealController;
 use App\Http\Controllers\AdminPanel\OrderController;
 use App\Http\Controllers\AdminPanel\SuggestionController;
+use App\Http\Controllers\AdminPanel\DietplanController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -48,7 +49,9 @@ Route::group(
             Route::resource('meals', MealController::class);
             Route::resource('orders', OrderController::class);
             Route::resource('suggestions', SuggestionController::class);
+            Route::resource('dietplans', DietplanController::class);
             Route::resource('contacts', ContactController::class);
+
         });
     }
 );
