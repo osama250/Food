@@ -113,5 +113,9 @@ class Meal extends Model
         return $this->belongsToMany(Client::class, 'client_meals')->withPivot('quantity')->withTimestamps();
     }
 
+    public function translations()
+    {
+        return $this->hasMany(MealTranslation::class);
+    }
 
 }
