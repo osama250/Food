@@ -180,4 +180,7 @@ return [
     'cancer'                => 'Cancer',
     'dietplans'             => 'Dietplans',
     'dietplan'              => 'Dietplan',
+    'choose_type'           => 'Choose Type',
+    'type'                  => 'Type',
+    'disease'               => 'Disease',
 ];

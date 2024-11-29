@@ -10,9 +10,8 @@ class Dietplan extends Model
 {
     use Translatable;
     public $table                   = 'dietplans';
-    public $fillable                = [ 'type' ,  'name', 'description' ];
+    public $fillable                = [ 'disease' ,'name', 'description' ];
     public $translatedAttributes    = [ 'name' , 'description' ];
-
 
     protected $casts = [
         'id' => 'integer'
@@ -22,10 +21,10 @@ class Dietplan extends Model
     {
         $langs = LaravelLocalization::getSupportedLanguagesKeys();
         foreach ($langs as $lang) {
-            $rules[$lang . '.name']      = 'required|string|min:5';
-            $rules[$lang . '.description'] = 'required|string|min:5';
+            $rules[$lang . '.name']         = 'required|string|min:5';
+            $rules[$lang . '.description']  = 'required|string|min:5';
         }
-        $rules['type'] = 'required|in:diabetes,hypertension,heart_disease,asthma,cancer,weight_loss,weight_gain';
+        $rules['disease'] = 'required|in:none,diabetes,hypertension,heart_disease,asthma,cancer';
         return $rules;
     }
 
