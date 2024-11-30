@@ -9,7 +9,7 @@ class ClientMeal extends Model
 {
     use HasFactory;
     protected $table        = 'client_meals';
-    protected $fillable     = [  'client_id',  'meal_id',  'quantity' ];
+    protected $fillable     = [  'client_id',  'meal_id',  'quantity' ,'price' ];
 
     // public function meal()
     // {
