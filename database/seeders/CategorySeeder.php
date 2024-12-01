@@ -18,7 +18,7 @@ class CategorySeeder extends Seeder
         CategoryTranslation::create( [
             'category_id'       => $category->id ,
             'locale'            => 'en',
-            'title'              => 'Fish',
+            'title'             => 'Fish',
             'description'       => 'This is the description in English.',
             ]);
 
@@ -38,7 +38,7 @@ class CategorySeeder extends Seeder
         CategoryTranslation::create( [
             'category_id'       => $category->id ,
             'locale'            => 'en',
-            'title'              => 'Chicken',
+            'title'             => 'Chicken',
             'description'       => 'This is the description in English.',
             ]);
 
