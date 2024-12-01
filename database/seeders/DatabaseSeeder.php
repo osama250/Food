@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Bread;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -18,7 +20,12 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             AdminSeeder::class,
             CategorySeeder::class,
-
+            RiceSeeder::class,
+            BreadSeeder::class,
+            DrinkSeeder::class,
+            SaladSeeder::class,
+            MealSeeder::class,
+            DietplanSeeder::class
         ]);
 
         // \App\Models\User::factory()->create([
