@@ -15,8 +15,9 @@ return new class extends Migration
             $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
             $table->unsignedBigInteger('meal_id');
             $table->foreign('meal_id')->references('id')->on('meals')->onDelete('cascade');
+            $table->decimal('price', 8, 2)->default(0.00);
             $table->integer('quantity')->default(1);
-            $table->timestamps(); 
+            $table->timestamps();
         });
     }
 
