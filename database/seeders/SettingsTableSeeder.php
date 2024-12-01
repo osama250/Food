@@ -13,8 +13,8 @@ class SettingsTableSeeder extends Seeder
     {
         DB::table('settings')->insert([
             'app_name'      => 'Food',
-            'logo'          => 'public/logo.jpg',
-            'footer_logo'   => 'public/logo.jpg',
+            'logo'          => 'logo.jpg',
+            'footer_logo'   => 'logo.jpg',
             'location'      => 'Cairo, Egypt',
             'points_price'  => 100,
             'created_at'    => now(),
