@@ -115,6 +115,7 @@ return [
     'Choose_Type'           => 'اختر النوع',
     'type'                  => 'النوع',
     'disease'               => 'المرض',
-
+    'clients'               => 'العملاء',
+    'client'                => 'العميل',
 
 ];

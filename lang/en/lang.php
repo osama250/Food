@@ -183,4 +183,7 @@ return [
     'choose_type'           => 'Choose Type',
     'type'                  => 'Type',
     'disease'               => 'Disease',
+    'clients'               => 'Clients',
+    'client'                => 'Client',
+
 ];
